@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-//import axios from "axios";
+import axios from "axios";
 
-/* const addToCart = async (productId) => {
+const addToCart = (productId) => {
   const newOrder = {
     productID: productId,
     quantity: 1,
@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
       alert(err);
       window.alert("Failed to add product to cart");
     });
-}; */
+};
 
 function ProductsHome() {
   const [productRecords, setRecords] = useState([]);
@@ -85,6 +85,7 @@ function ProductsHome() {
 
                   <center>
                     <button
+                      onClick={() => addToCart(`${product.productName}`)}
                       style={{
                         padding: "5px",
                         textAlign: "center",
