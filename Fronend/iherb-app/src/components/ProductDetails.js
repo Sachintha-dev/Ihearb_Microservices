@@ -35,7 +35,7 @@ export default function ProductDetails() {
         <p>Product Category: {product.category}</p>
       </div>
 
-     {/*  <div
+      <div
         style={{
           border: "2px solid black",
           padding: "10px",
@@ -51,7 +51,7 @@ export default function ProductDetails() {
           <input type="number" />
           &nbsp;&nbsp;&nbsp;<button>Add To Cart</button>
         </form>
-      </div> */}
+      </div>
     </div>
   );
 }
