@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+//import axios from "axios";
 
 /* const addToCart = async (productId) => {
   const newOrder = {
@@ -85,7 +85,6 @@ function ProductsHome() {
 
                   <center>
                     <button
-                      
                       style={{
                         padding: "5px",
                         textAlign: "center",

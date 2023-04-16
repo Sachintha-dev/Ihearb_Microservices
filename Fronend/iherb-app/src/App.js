@@ -12,7 +12,6 @@ function App() {
       <BrowserRouter>
         <Routes>
            <Route path="/" exact element={<ProductsHome />} />
-        
           <Route path="/product/:id" exact element={<ProductDetails />} />
         </Routes>
       </BrowserRouter>
