@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const addToCart = (productId) => {
+const addToCart = (productId, productName, productPrice, image) => {
   const newOrder = {
     productID: productId,
+    productName: productName,
     quantity: 1,
+    price: productPrice,
+    productImage: image,
   };
 
   const response = axios
@@ -85,7 +88,14 @@ function ProductsHome() {
 
                   <center>
                     <button
-                      onClick={() => addToCart(`${product.productName}`)}
+                      onClick={() =>
+                        addToCart(
+                          product._id,
+                          product.productName,
+                          product.price,
+                          product.productImage
+                        )
+                      }
                       style={{
                         padding: "5px",
                         textAlign: "center",

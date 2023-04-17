@@ -1,8 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+
+const addToCart = (productId, productName, quantity, productPrice, image) => {
+  const newOrder = {
+    productID: productId,
+    productName: productName,
+    quantity: parseInt(quantity),
+    price: productPrice,
+    imageURL: image,
+  };
+
+  const response = axios
+    .post(`http://localhost:5005/order/addOrder/`, newOrder)
+    .then(() => {
+      console.log(response.data);
+      window.alert("Product added to cart!");
+    })
+
+    .catch((err) => {
+      alert(err);
+      window.alert("Failed to add product to cart");
+    });
+};
+
 export default function ProductDetails() {
   const params = useParams();
   const [product, setProduct] = useState([]);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     async function fetchProductDetails() {
@@ -28,7 +53,7 @@ export default function ProductDetails() {
   return (
     <div>
       <div>
-        <h1>{product.Name}</h1>
+        <h1>{product.productName}</h1>
         <img src={product.productImage} style={{ height: 300, width: 300 }} />
         <p>Description: {product.Description}</p>
         <p>Price : {product.price}</p>
@@ -48,8 +73,25 @@ export default function ProductDetails() {
         <h2>Add to Cart</h2>
         <form>
           <label htmlFor="quantity">Quantity: </label>&nbsp;&nbsp;&nbsp;
-          <input type="number" />
-          &nbsp;&nbsp;&nbsp;<button>Add To Cart</button>
+          <input
+            type="number"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+          />
+          &nbsp;&nbsp;&nbsp;
+          <button
+            onClick={() =>
+              addToCart(
+                product._id,
+                product.productName,
+                quantity,
+                product.price,
+                product.productImage
+              )
+            }
+          >
+            Add To Cart
+          </button>
         </form>
       </div>
     </div>

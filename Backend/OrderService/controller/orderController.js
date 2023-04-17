@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 
 // Add product to cart
 const addProductToCart = async (req, res, next) => {
-  const { productID, quantity } = req.body;
+  const { productID, productName, quantity, price, productImage } = req.body;
   const userId = "12345678";
 
   // let order = await Order.findOne({
@@ -15,7 +15,9 @@ const addProductToCart = async (req, res, next) => {
     // Create a new cart if the user doesn't have one
     order = new Order({
       userId,
-      products: [{ productID, quantity, userId }],
+      products: [
+        { productID, productName, quantity, price, productImage, userId },
+      ],
     });
   } else {
     // Add the product to the user's existing cart
@@ -27,14 +29,20 @@ const addProductToCart = async (req, res, next) => {
       order.products[productIndex].quantity += quantity;
     } else {
       // Otherwise, add a new product to the cart
-      order.products.push({ productID, quantity, userId });
+      order.products.push({
+        productID,
+        productName,
+        quantity,
+        price,
+        productImage,
+        userId,
+      });
     }
   }
 
   // Calculate the final total of the payment
   order.total = order.products.reduce((acc, item) => {
-    const price = 50; // Replace with actual product price from database
-    return acc + price * item.quantity;
+    return acc + item.price * item.quantity;
   }, 0);
 
   await order
@@ -72,8 +80,10 @@ const getOrderDetails = async (req, res) => {
     const products = order.products.map((product) => {
       return {
         productID: product.productID,
+        productName: product.productName, // name of the product (not the model) ids are unique so we can just use product.productID.to
         quantity: product.quantity,
         price: product.price,
+        productImage: product.productImage, // imageURL is a reference to the image in the db.  this is a string.  it can be accessed
       };
     });
 
