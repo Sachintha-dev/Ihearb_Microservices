@@ -1,5 +1,8 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from "react-router-dom";
+
+const userId = "12345678";
 
 const Header = () => {
   return (
@@ -45,7 +48,17 @@ const Header = () => {
             </a>
           </li>
           <li>
-            <a class="flex-sm-fill text-sm-center nav-link active">MyCart</a>
+            <a class="">
+              <Link
+                to={`/cart/${userId}`}
+                style={{
+                  color: "white",
+                  textDecoration: "none",
+                }}
+              >
+                MyCart
+              </Link>
+            </a>
           </li>
           <li>
             <form className="form-inline my-7 my-lg-0">
@@ -95,6 +108,7 @@ const Header = () => {
               <a className="dropdown-item" href="#">
                 Another action
               </a>
+
               <a className="dropdown-item" href="#">
                 Something else here
               </a>

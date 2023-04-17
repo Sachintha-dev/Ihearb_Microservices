@@ -6,10 +6,6 @@ const addProductToCart = async (req, res, next) => {
   const { productID, productName, quantity, price, productImage } = req.body;
   const userId = "12345678";
 
-  // let order = await Order.findOne({
-  //   products: { $elemMatch: { userId: userId } },
-  // });
-
   let order = await Order.findOne({ userId });
   if (!order) {
     // Create a new cart if the user doesn't have one
@@ -65,34 +61,36 @@ const ObjectId = mongoose.Types.ObjectId;
 
 const getOrderDetails = async (req, res) => {
   try {
-    const orderId = req.params.orderId;
+    const userId = req.params.userId;
 
-    if (!ObjectId.isValid(orderId)) {
-      return res.status(400).json({ message: "Invalid order id" });
+    // if (!ObjectId.isValid(userId)) {
+    //   return res.status(400).json({ message: "Invalid user id" });
+    // }
+
+    const orders = await Order.find({ userId: userId });
+
+    if (orders.length === 0) {
+      return res.status(404).json({ message: "Orders not found" });
     }
 
-    const order = await Order.findById(orderId).populate("products.productID");
+    const orderDetails = orders.map((order) => {
+      const products = order.products.map((product) => {
+        return {
+          productID: product.productID,
+          productName: product.productName,
+          quantity: product.quantity,
+          price: product.price,
+          productImage: product.productImage,
+        };
+      });
 
-    if (!order) {
-      return res.status(404).json({ message: "Order not found" });
-    }
-
-    const products = order.products.map((product) => {
       return {
-        productID: product.productID,
-        productName: product.productName, // name of the product (not the model) ids are unique so we can just use product.productID.to
-        quantity: product.quantity,
-        price: product.price,
-        productImage: product.productImage, // imageURL is a reference to the image in the db.  this is a string.  it can be accessed
+        orderId: order._id,
+        products: products,
+        userId: order.userId,
+        total: order.total,
       };
     });
-
-    const orderDetails = {
-      orderId: order._id,
-      products: products,
-      userId: order.userId,
-      total: order.total,
-    };
 
     res.status(200).json(orderDetails);
   } catch (err) {
@@ -104,9 +102,11 @@ const getOrderDetails = async (req, res) => {
 //Delete order by order id
 const deleteOrder = async (req, res) => {
   try {
-    const orderId = req.params.orderId;
+    const userId = req.params.userId;
 
-    const deletedOrder = await Order.findByIdAndDelete(orderId);
+    const deletedOrder = await Order.findOneAndDelete({ userId: userId });
+
+    // const deletedOrder = await Order.findByIdAndDelete(orderId);
 
     if (!deletedOrder) {
       return res.status(404).json({ message: "Order not found" });

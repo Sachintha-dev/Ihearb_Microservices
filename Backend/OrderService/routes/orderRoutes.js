@@ -10,8 +10,8 @@ const {
 router.post("/addOrder", addProductToCart);
 
 //Get order details for a user/session id
-router.get("/getOrderDetails/:orderId", getOrderDetails);
+router.get("/getOrderDetails/:userId", getOrderDetails);
 
 //Delete order by orderid
-router.delete("/deleteOrder/:orderId", deleteOrder);
+router.delete("/deleteOrder/:userId", deleteOrder);
 module.exports = router;

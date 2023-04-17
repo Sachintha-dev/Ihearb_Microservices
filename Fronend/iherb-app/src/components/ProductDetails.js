@@ -8,7 +8,7 @@ const addToCart = (productId, productName, quantity, productPrice, image) => {
     productName: productName,
     quantity: parseInt(quantity),
     price: productPrice,
-    imageURL: image,
+    productImage: image,
   };
 
   const response = axios
