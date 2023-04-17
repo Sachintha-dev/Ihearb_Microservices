@@ -92,7 +92,7 @@ router.all(`/:apiName/:path`, (req, res) => {
   }
 });
 
-function register(req, res) {
+function registerApi(req, res) {
   console.log(req.body);
   const registerInfo = req.body;
   registerInfo.url =
@@ -106,16 +106,25 @@ function register(req, res) {
     res.send(
       `Configuration already exists for ${registerInfo.apiName} @ ${registerInfo.url}`
     );
+    return;
   } else {
-    registry.services[registerInfo.apiName].instances.push({ ...registerInfo });
+    if (!registry.services[registerInfo.serviceName]) {
+      registry.services[registerInfo.serviceName] = {
+        index: 0,
+        instances: [],
+      };
+    }
+    registry.services[registerInfo.serviceName].instances.push({
+      ...registerInfo,
+    });
     fs.writeFile(
       `./router/registry.json`,
       JSON.stringify(registry),
       (error) => {
         if (error) {
-          res.send("Couldn't register" + registerInfo.apiName + "\n" + error);
+          res.send("Couldn't register " + registerInfo.apiName + "\n" + error);
         } else {
-          res.send("Successfull registerd " + registerInfo.apiName + "\n");
+          res.send("Successfully registered " + registerInfo.apiName + "\n");
         }
       }
     );
@@ -125,9 +134,9 @@ function register(req, res) {
 router.post(`/register`, (req, res) => {
   const registerInfo = req.body;
   if (servicesAlreadyExist(registerInfo)) {
-    register(req, res);
+    registerApi(req, res);
   } else {
-    registry.services[registerInfo.apiName] = { index: 0, instances: [] };
+    registry.services[registerInfo.serviceName] = { index: 0, instances: [] };
     fs.writeFile(
       `./router/registry.json`,
       JSON.stringify(registry),
@@ -139,7 +148,7 @@ router.post(`/register`, (req, res) => {
         }
       }
     );
-    register(req, res);
+    registerApi(req, res);
   }
 });
 
@@ -170,22 +179,15 @@ router.post(`/unregister`, (req, res) => {
 });
 
 const apiAlreadyExists = (registerInfo) => {
-  let exists = false;
-  const apiName = registerInfo.apiName;
-  const service = registry.services[apiName];
-  if (service && service.instances) {
-    service.instances.forEach((instance) => {
-      if (instance.url === registerInfo.url) {
-        exists = true;
-        return;
-      }
-    });
-  }
-  return exists;
+  const instances = registry.services[registerInfo.serviceName].instances;
+  const existingInstance = instances.find(
+    (instance) => instance.url === registerInfo.url
+  );
+  return !!existingInstance;
 };
 
 const servicesAlreadyExist = (registerInfo) => {
-  if (registry.services.hasOwnProperty(registerInfo.apiName)) {
+  if (registry.services.hasOwnProperty(registerInfo.serviceName)) {
     return true;
   }
   return false;
