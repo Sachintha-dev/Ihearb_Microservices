@@ -4,7 +4,13 @@ const cors = require("cors");
 const Stripe = require("stripe");
 const app = express();
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-const port = process.env.PORT || 4000;
+const axios = require(`axios`);
+
+const SERVICE_NAME = `paymentservice`;
+const HOST = `localhost`;
+const PORT = 4000;
+const APINAME = "getpayment";
+const PROTOCOL = "http";
 
 app.use(express.json());
 app.use(
@@ -41,7 +47,6 @@ app.post("/create-checkout-session", async (req, res) => {
       mode: "payment",
       success_url: `${process.env.CLIENT_URL}`,
       cancel_url: `${process.env.CLIENT_URL}`,
-     
     });
 
     if (session) {
@@ -61,4 +66,24 @@ app.post("/create-checkout-session", async (req, res) => {
   }
 });
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(PORT, (req, res) => {
+  axios({
+    method: "POST",
+    url: "http://localhost:3000/register",
+    headers: { "Content-Type": "application/json" },
+    data: {
+      serviceName: SERVICE_NAME,
+      apiName: APINAME,
+      protocol: PROTOCOL,
+      host: HOST,
+      port: PORT,
+      enabled: true,
+    },
+  }).then((response) => {
+    console.log(response.data);
+  });
+});
+
+app.get(`/getpayment`, (req, res, next) => {
+  res.send("hello from orderservice");
+});
