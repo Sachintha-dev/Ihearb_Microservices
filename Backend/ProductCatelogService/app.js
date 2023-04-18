@@ -9,7 +9,7 @@ const app = express();
 
 const SERVICE_NAME = `productcatelogservice`;
 const HOST = `localhost`;
-const PORT = 5000;
+const PORT = 5002;
 const APINAME = "getproduct";
 const PROTOCOL = "http";
 

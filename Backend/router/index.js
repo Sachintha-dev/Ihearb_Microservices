@@ -190,6 +190,7 @@ const servicesAlreadyExist = (registerInfo) => {
   if (registry.services.hasOwnProperty(registerInfo.serviceName)) {
     return true;
   }
+
   return false;
 };
 
