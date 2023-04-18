@@ -44,6 +44,7 @@ If the operation is successful, it sends a JSON response with a status code of 2
 If an error occurs, it logs the error and sends a JSON response with a status code of 500 and a message saying "error with delete data".*/
 const deleteProduct = async (req, res) => {
   let _id = req.query.id;
+  console.log(_id);
   await Product.findByIdAndDelete(_id)
 
     .then(() => {

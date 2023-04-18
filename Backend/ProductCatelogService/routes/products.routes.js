@@ -36,7 +36,6 @@ If none of the HTTP methods match, it sends a 404 error response as well.
 This function essentially acts as a middleware between the client and the server, 
 routing incoming requests to the appropriate function for processing.*/
 const requestHandler = (req, res) => {
-  const id = req.params.id;
   const method = req.method;
 
   switch (method) {
@@ -47,18 +46,13 @@ const requestHandler = (req, res) => {
       getProductRouting(req, res);
       break;
     case "PUT":
-      if (id) {
-        updateProductRouting(req, res);
-      } else {
-        res.status(404).send("Route not found");
-      }
+      updateProductRouting(req, res);
       break;
     case "DELETE":
-      if (id) {
-        deleteProductRouting(req, res);
-      } else {
-        res.status(404).send("Route not found");
-      }
+      deleteProductRouting(req, res);
+      break;
+    case "UPDATE":
+      updateProductRouting(req, res);
       break;
     default:
       res.status(404).send("Route not found");
