@@ -1,5 +1,4 @@
 const router = require("express").Router();
-
 const {
   addProduct,
   getProduct,
@@ -8,19 +7,49 @@ const {
   updateProduct,
 } = require("../controller/products.controller.js");
 
-//add new product
-router.post("/addProduct/", addProduct);
+const addProductRouting = (req, res) => {
+  addProduct(req, res);
+};
 
-//get all products
-router.get("/getProducts/", getProducts);
+const getProductsRouting = (req, res) => {
+  getProducts(req, res);
+};
 
-//Update product
-router.put("/updateProduct/:id", updateProduct);
+const deleteProductRouting = (req, res) => {
+  deleteProduct(req, res);
+};
 
-//Delete product
-router.delete("/deleteProduct/:id", deleteProduct);
+const updateProductRouting = (req, res) => {
+  updateProduct(req, res);
+};
 
-// Search for product
-router.get("/getProduct/:id", getProduct);
+const getProductRouting = (req, res) => {
+  getProduct(req, res);
+};
 
-module.exports = router;
+const requestHandler = (req, res) => {
+  const method = req.method;
+  const id = req.params.id;
+
+  if (method === `POST`) {
+    addProductRouting(req, res);
+  } else if (method === `GET` && id != null) {
+    getProductRouting(req, res);
+  } else if (method === `PUT` && id != null) {
+    updateProductRouting(req, res);
+  } else if (method === `DELETE` && id != null) {
+    deleteProductRouting(req, res);
+  } else if (method === `GET`) {
+    getProductsRouting(req, res);
+  } else {
+    res.status(404).send(`Route not found`);
+  }
+};
+
+router.post("/addProduct/", addProductRouting);
+router.get("/getProducts/", getProductsRouting);
+router.get("/getProduct/:id", getProductRouting);
+router.put("/updateProduct/:id", updateProductRouting);
+router.delete("/deleteProduct/:id", deleteProductRouting);
+
+module.exports = requestHandler;

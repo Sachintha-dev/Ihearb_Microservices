@@ -2,8 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const prodctRoutes = require("./routes/products.routes.js");
+//const prodctRoutes = require("./routes/products.routes.js");
 const axios = require(`axios`);
+const requestHandler = require("./routes/products.routes");
 
 const app = express();
 
@@ -18,10 +19,10 @@ app.use(cors());
 require("dotenv").config();
 
 // middleware
-//app.use(express.json());
+app.use(requestHandler);
 
-//routes
-app.use("/products", prodctRoutes);
+// routes
+//app.use("/products", prodctRoutes);
 
 mongoose
   .connect(
@@ -35,6 +36,7 @@ mongoose
   .catch((error) => console.log(error));
 
 app.listen(PORT, (req, res) => {
+  console.log(PORT);
   axios({
     method: "POST",
     url: "http://localhost:3000/register",
@@ -50,8 +52,4 @@ app.listen(PORT, (req, res) => {
   }).then((response) => {
     console.log(response.data);
   });
-});
-
-app.get(`/getproduct`, (req, res, next) => {
-  res.send("Hello from product service");
 });
