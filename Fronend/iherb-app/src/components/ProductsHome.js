@@ -22,6 +22,22 @@ const addToCart = (productId, productName, productPrice, image) => {
       alert(err);
       window.alert("Failed to add product to cart");
     });
+
+  const newEmail = {
+    to: "senulananayakkara88@gmail.com",
+    subject: "New Item added to cart",
+    description: "You have selected " + productName + " with a quantity of 1",
+  };
+
+  axios
+    .post(`http://localhost:5025/sendEmail/send`, newEmail)
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Failed to send email");
+    });
 };
 
 function ProductsHome() {

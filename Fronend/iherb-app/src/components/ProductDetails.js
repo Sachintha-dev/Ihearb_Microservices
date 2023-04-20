@@ -11,12 +11,6 @@ const addToCart = (productId, productName, quantity, productPrice, image) => {
     productImage: image,
   };
 
-  const newEmail = {
-    to: "nanayakkarasb88@gmail.com",
-    subject: "New Item added to cart",
-    message: "You are selected" + productName + "With quantity of" + quantity,
-  };
-
   const response = axios
     .post(`http://localhost:5006/order/addOrder/`, newOrder)
     .then(() => {
@@ -27,6 +21,18 @@ const addToCart = (productId, productName, quantity, productPrice, image) => {
     .catch((err) => {
       alert(err);
       window.alert("Failed to add product to cart");
+    });
+
+  const newEmail = {
+    to: "nanayakkarasb88@gmail.com",
+    subject: "New Item added to cart",
+    message: "You are selected" + productName + "With quantity of" + quantity,
+  };
+
+  const res = axios
+    .post(`http://localhost:5010/sendEmail/send`, newEmail)
+    .then(() => {
+      console.log(res.data);
     });
 };
 
