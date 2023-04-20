@@ -12,7 +12,7 @@ const addToCart = (productId, productName, productPrice, image) => {
   };
 
   const response = axios
-    .post(`http://localhost:5005/order/addOrder/`, newOrder)
+    .post(`http://localhost:5006/order/addOrder/`, newOrder)
     .then(() => {
       console.log(response.data);
       window.alert("Product added to cart!");

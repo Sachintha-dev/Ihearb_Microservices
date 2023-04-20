@@ -10,7 +10,7 @@ const OrderList = () => {
   useEffect(() => {
     async function fetchOrderDetails() {
       const response = await fetch(
-        `http://localhost:5005/order/getOrderDetails/${params.userId}`
+        `http://localhost:5006/order/getOrderDetails/${params.userId}`
       );
 
       if (!response.ok) {
@@ -29,7 +29,7 @@ const OrderList = () => {
 
   async function deleteCart(userID) {
     const response = await fetch(
-      `http://localhost:5005/order/deleteOrder/${userID}`,
+      `http://localhost:5006/order/deleteOrder/${userID}`,
       {
         method: "DELETE",
       }

@@ -11,8 +11,14 @@ const addToCart = (productId, productName, quantity, productPrice, image) => {
     productImage: image,
   };
 
+  const newEmail = {
+    to: "nanayakkarasb88@gmail.com",
+    subject: "New Item added to cart",
+    message: "You are selected" + productName + "With quantity of" + quantity,
+  };
+
   const response = axios
-    .post(`http://localhost:5005/order/addOrder/`, newOrder)
+    .post(`http://localhost:5006/order/addOrder/`, newOrder)
     .then(() => {
       console.log(response.data);
       window.alert("Product added to cart!");
@@ -43,7 +49,7 @@ export default function ProductDetails() {
 
       const records = await response.json();
       console.log(records);
-      setProduct(records.product);
+      setProduct(records);
     }
 
     fetchProductDetails();
@@ -55,7 +61,7 @@ export default function ProductDetails() {
       <div>
         <h1>{product.productName}</h1>
         <img src={product.productImage} style={{ height: 300, width: 300 }} />
-        <p>Description: {product.Description}</p>
+        <p>Description: {product.productDescription}</p>
         <p>Price : {product.price}</p>
         <p>Product Category: {product.category}</p>
       </div>
