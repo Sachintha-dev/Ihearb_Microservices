@@ -25,7 +25,7 @@ function CreateProduct() {
       stockQuantity,
     };
     axios
-      .post("http://localhost:5000/products/addProduct", newProduct)
+      .post("http://localhost:5002/products/addProduct", newProduct)
       .then((res) => {
         console.log(res.data);
         alert("Product Added Successfully!");

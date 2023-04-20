@@ -8,7 +8,7 @@ function ProductTable() {
   useEffect(() => {
     async function getRecords() {
       const response = await fetch(
-        `http://localhost:5000/products/getProducts`
+        `http://localhost:5002/products/getProducts`
       );
       if (!response.ok) {
         const message = `An error occured: ${response.statusText}`;
