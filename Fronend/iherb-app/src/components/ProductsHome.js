@@ -45,9 +45,7 @@ function ProductsHome() {
   const [search, setsearch] = useState("");
   useEffect(() => {
     async function getRecords() {
-      const response = await fetch(
-        `http://localhost:5002/products/getProducts`
-      );
+      const response = await fetch(`http://localhost:5002/products/getProduct`);
       if (!response.ok) {
         const message = `An error occured: ${response.statusText}`;
         window.alert(message);

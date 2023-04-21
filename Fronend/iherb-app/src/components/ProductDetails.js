@@ -24,15 +24,20 @@ const addToCart = (productId, productName, quantity, productPrice, image) => {
     });
 
   const newEmail = {
-    to: "nanayakkarasb88@gmail.com",
+    to: "senulananayakkara88@gmail.com",
     subject: "New Item added to cart",
-    message: "You are selected" + productName + "With quantity of" + quantity,
+    description:
+      "You have selected " + productName + " with a quantity of " + quantity,
   };
 
-  const res = axios
-    .post(`http://localhost:5010/sendEmail/send`, newEmail)
-    .then(() => {
-      console.log(res.data);
+  axios
+    .post(`http://localhost:5025/sendEmail/send`, newEmail)
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Failed to send email");
     });
 };
 
@@ -44,10 +49,11 @@ export default function ProductDetails() {
   useEffect(() => {
     async function fetchProductDetails() {
       const response = await fetch(
-        `http://localhost:5002/products/getProduct/${params.id.toString()}`
+        `http://localhost:5002/products/getProduct?id=${params.id.toString()}`
       );
 
       if (!response.ok) {
+        window.alert(`${params.id.toString()}`);
         const message = `An error has occured: ${response.statusText}`;
         window.alert(message);
         return;
@@ -55,7 +61,7 @@ export default function ProductDetails() {
 
       const records = await response.json();
       console.log(records);
-      setProduct(records);
+      setProduct(records.product);
     }
 
     fetchProductDetails();

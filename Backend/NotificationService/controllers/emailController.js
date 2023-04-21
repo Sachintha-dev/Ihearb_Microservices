@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const sendMail = async (req, res, next) => {
-  const { to, subject, message } = req.body;
+  const { to, subject, description } = req.body;
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -63,7 +63,8 @@ const sendMail = async (req, res, next) => {
         <div class="content-container">
           <h1 class="heading"><center>${subject}</center></h1>
           <p>==============================================================================================================================================</p>
-          <p class="paragraph">${message}</p>
+          <p class="paragraph">${description}</p>
+          <h1 class="heading"><center>Thank You!</center></h1>
         </div>
       </body>
     </html>
