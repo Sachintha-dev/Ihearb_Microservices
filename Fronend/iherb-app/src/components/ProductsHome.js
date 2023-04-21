@@ -69,83 +69,105 @@ function ProductsHome() {
             type="search"
             placeholder="Search for Products ..."
             name="searchQuery"
+            style={{
+              width: "300px",
+              height: "50px",
+              paddingLeft: "20px",
+              fontSize: "18px",
+              borderRadius: "25px",
+              boxShadow: "0 0 10px 0px rgba(0, 0, 0, 0.1)",
+            }}
             onChange={(e) => {
               setsearch(e.target.value);
             }}
-          ></input>
+          />
         </div>
 
         <div></div>
       </div>
       <br />
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "50px",
+        }}
+      >
         {productRecords
           .filter((product) =>
             product.productName.toLowerCase().includes(search.toLowerCase())
-          ) //.filter((product => productName.includes)
+          )
           .map((product) => {
             return (
               <div
-                className="container"
+                key={product._id}
                 style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "center",
-                  gap: "50px",
+                  height: "500px",
+                  width: "500px",
+                  margin: "50px",
+                  border: "1px solid black",
+                  textAlign: "center",
+                  paddingLeft: "10px",
                 }}
               >
-                <div
-                  style={{
-                    height: 420,
-                    width: 500,
-                    margin: 50,
-                    border: "1px solid black",
-                    textAlign: "center",
-                    paddingLeft: 10,
-                  }}
-                >
-                  <h3>{product.productName}</h3>
+                <h3>{product.productName}</h3>
 
-                  <img
-                    src={product.productImage}
-                    alt=""
-                    class="parts"
-                    style={{ height: 250, width: 300 }}
-                  />
-                  <br />
-                  <br />
-                  <div class="order">
-                    <form action="{handleSubmit}"></form>
+                <img
+                  src={product.productImage}
+                  alt=""
+                  class="parts"
+                  style={{ height: "250px", width: "300px" }}
+                />
+                <br />
+                <br />
+                <div class="order">
+                  <form action="{handleSubmit}"></form>
 
-                    <label for="price">Product Price</label>
-                    <p>{product.price}</p>
+                  <label for="price">Product Price</label>
+                  <p>{product.price}</p>
 
-                    <center>
-                      <button
-                        onClick={() =>
-                          addToCart(
-                            product._id,
-                            product.productName,
-                            product.price,
-                            product.productImage
-                          )
+                  <center>
+                    <button
+                      class="btn btn-success"
+                      onClick={() =>
+                        addToCart(
+                          product._id,
+                          product.productName,
+                          product.price,
+                          product.productImage
+                        )
+                      }
+                      style={
+                        {
+                          // padding: "5px",
+                          // textAlign: "center",
+                          // width: "300px;",
+                          // alignItems: "center",
+                          // backgroundColor: "#3AAFA9",
+                          // color: "white",
+                          // border: "none",
+                          // boxShadow: "0 0 10px 0px rgba(0, 0, 0, 0.1)",
                         }
+                      }
+                    >
+                      Add to Cart
+                    </button>
+                    <br />
+                    <br />
+                    &nbsp;&nbsp;
+                    <button class="btn btn-warning">
+                      <Link
+                        to={`/product/${product._id}`}
                         style={{
-                          padding: "5px",
-                          textAlign: "center",
-                          width: "200px;",
-                          alignItems: "center",
+                          textDecoration: "none",
+                          color: "#fff",
                         }}
                       >
-                        Add to Cart
-                      </button>
-                      <br />
-                      <button class="btn btn-warning">
-                        <Link to={`/product/${product._id}`}>View Details</Link>
-                      </button>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                    </center>
-                  </div>
+                        View Details
+                      </Link>
+                    </button>
+                  </center>
                 </div>
               </div>
             );
