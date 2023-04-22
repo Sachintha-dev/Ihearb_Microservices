@@ -10,6 +10,7 @@ import CreateProduct from "./components/CreateProduct";
 import AdminHome from "./components/AdminHome";
 import Checkout from "./components/Payment";
 import UpdateProduct from "./components/UpdateProduct";
+import SignupForm from "./components/SignupForm";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             exact
             element={<UpdateProduct />}
           />
+          <Route path="/signup" exact element={<SignupForm />} />
           <Route path="admin/newProduct" exact element={<CreateProduct />} />
           <Route path="/checkout" exact element={<Checkout />} />
         </Routes>
