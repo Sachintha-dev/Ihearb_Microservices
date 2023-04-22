@@ -1,17 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 
-function CreateProduct() {
-  const [productID, setProductID] = useState("");
-  const [productName, setProductName] = useState("");
-  const [productDescription, setProductDescription] = useState("");
-  const [productImage, setProductImage] = useState("");
-  const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
-  const [stockQuantity, setStockQuantity] = useState("");
+function UpdateProduct() {
+  const [productID, updateProductID] = useState("");
+  const [productName, updateProductName] = useState("");
+  const [productDescription, updateProductDescription] = useState("");
+  const [productImage, updateProductImage] = useState("");
+  const [price, updatePrice] = useState("");
+  const [category, updateCategory] = useState("");
+  const [stockQuantity, updateStockQuantity] = useState("");
 
+  const params = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchData() {
+      const id = params.id.toString();
+      const response = await fetch(
+        `http://localhost:5002/products/getProduct?id=${params.id.toString()}`
+      );
+
+      if (!response.ok) {
+        const message = `An error has occured: ${response.statusText}`;
+        window.alert(message);
+        return;
+      }
+
+      const record = await response.json();
+      updateProductID(record.product.productID);
+      updateProductName(record.product.productName);
+      updateProductDescription(record.product.productDescription);
+      updateProductImage(record.product.productImage);
+      updatePrice(record.product.price);
+      updateCategory(record.product.category);
+      updateStockQuantity(record.product.stockQuantity);
+
+      if (!record) {
+        window.alert(`Record with id ${id} not found`);
+        navigate("/");
+        return;
+      }
+    }
+
+    fetchData();
+    return;
+  }, [params.id, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,15 +59,18 @@ function CreateProduct() {
       stockQuantity,
     };
     axios
-      .post("http://localhost:5002/products/addProduct", newProduct)
+      .put(
+        `http://localhost:5002/products/updateProduct?id=${params.id}`,
+        newProduct
+      )
       .then((res) => {
         console.log(res.data);
-        alert("Product Added Successfully!");
+        alert("Product updated Successfully!");
         navigate("/admin/Products");
       })
       .catch((err) => {
         console.log(err);
-        alert("Error Adding Product!");
+        alert("Error updating Product!");
       });
   };
 
@@ -42,12 +79,12 @@ function CreateProduct() {
       <br />
       <fieldset
         style={{
-          backgroundColor: "#A9CCE3",
+          backgroundColor: "lightgray",
           padding: "30px",
           borderRadius: "20px",
         }}
       >
-        <h2>Add New Product</h2>
+        <h2>Update Product</h2>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -61,7 +98,8 @@ function CreateProduct() {
                 borderRadius: 10,
                 border: "1px solid black",
               }}
-              onChange={(e) => setProductID(e.target.value)}
+              onChange={(e) => updateProductID(e.target.value)}
+              value={productID}
               required
             />
           </div>
@@ -78,7 +116,8 @@ function CreateProduct() {
                 borderRadius: 10,
                 border: "1px solid black",
               }}
-              onChange={(e) => setProductName(e.target.value)}
+              value={productName}
+              onChange={(e) => updateProductName(e.target.value)}
               required
             />
           </div>
@@ -96,7 +135,8 @@ function CreateProduct() {
                 border: "1px solid black",
                 height: 200,
               }}
-              onChange={(e) => setProductDescription(e.target.value)}
+              value={productDescription}
+              onChange={(e) => updateProductDescription(e.target.value)}
               required
             />
           </div>
@@ -113,7 +153,8 @@ function CreateProduct() {
                 borderRadius: 10,
                 border: "1px solid black",
               }}
-              onChange={(e) => setProductImage(e.target.value)}
+              value={productImage}
+              onChange={(e) => updateProductImage(e.target.value)}
               required
             />
           </div>
@@ -128,7 +169,8 @@ function CreateProduct() {
                 borderRadius: 10,
                 border: "1px solid black",
               }}
-              onChange={(e) => setPrice(e.target.value)}
+              value={price}
+              onChange={(e) => updatePrice(e.target.value)}
               required
             />
           </div>
@@ -143,7 +185,8 @@ function CreateProduct() {
                 borderRadius: 10,
                 border: "1px solid black",
               }}
-              onChange={(e) => setCategory(e.target.value)}
+              value={category}
+              onChange={(e) => updateCategory(e.target.value)}
               required
             />
           </div>
@@ -160,7 +203,8 @@ function CreateProduct() {
                 borderRadius: 10,
                 border: "1px solid black",
               }}
-              onChange={(e) => setStockQuantity(e.target.value)}
+              value={stockQuantity}
+              onChange={(e) => updateStockQuantity(e.target.value)}
               required
             />
           </div>
@@ -174,4 +218,4 @@ function CreateProduct() {
   );
 }
 
-export default CreateProduct;
+export default UpdateProduct;

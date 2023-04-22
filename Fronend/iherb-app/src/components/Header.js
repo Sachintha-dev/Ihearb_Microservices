@@ -38,7 +38,7 @@ const Header = () => {
       <nav class="navbar navbar-expand-lg navbar-dark bg-primary text-white">
         <ul>
           <li>
-            <a class="flex-sm-fill text-sm-center nav-link active" href="#">
+            <a class="flex-sm-fill text-sm-center nav-link active" href="/">
               Home
             </a>
           </li>
