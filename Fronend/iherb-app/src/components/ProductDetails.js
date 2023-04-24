@@ -12,7 +12,7 @@ const addToCart = (productId, productName, quantity, productPrice, image) => {
   };
 
   const response = axios
-    .post(`http://localhost:5005/order/addOrder/`, newOrder)
+    .post(`http://localhost:5006/order/addOrder/`, newOrder)
     .then(() => {
       console.log(response.data);
       window.alert("Product added to cart!");
@@ -21,6 +21,23 @@ const addToCart = (productId, productName, quantity, productPrice, image) => {
     .catch((err) => {
       alert(err);
       window.alert("Failed to add product to cart");
+    });
+
+  const newEmail = {
+    to: "senulananayakkara88@gmail.com",
+    subject: "New Item added to cart",
+    description:
+      "You have selected " + productName + " with a quantity of " + quantity,
+  };
+
+  axios
+    .post(`http://localhost:5025/sendEmail/send`, newEmail)
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Failed to send email");
     });
 };
 
@@ -32,10 +49,11 @@ export default function ProductDetails() {
   useEffect(() => {
     async function fetchProductDetails() {
       const response = await fetch(
-        `http://localhost:5000/products/getProduct/${params.id.toString()}`
+        `http://localhost:5002/products/getProduct?id=${params.id.toString()}`
       );
 
       if (!response.ok) {
+        window.alert(`${params.id.toString()}`);
         const message = `An error has occured: ${response.statusText}`;
         window.alert(message);
         return;
@@ -55,7 +73,7 @@ export default function ProductDetails() {
       <div>
         <h1>{product.productName}</h1>
         <img src={product.productImage} style={{ height: 300, width: 300 }} />
-        <p>Description: {product.Description}</p>
+        <p>Description: {product.productDescription}</p>
         <p>Price : {product.price}</p>
         <p>Product Category: {product.category}</p>
       </div>
