@@ -1,0 +1,39 @@
+CREATE DATABASE auth_db;
+
+USE auth_db;
+
+CREATE TABLE users (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY (username)
+);
+
+CREATE TABLE roles (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  description VARCHAR(255)
+);
+
+CREATE TABLE user_roles (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  role_id INT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (role_id) REFERENCES roles(id)
+);
+
+INSERT INTO roles (name, description) VALUES ('admin', 'Admin user with full privileges');
+INSERT INTO roles (name, description) VALUES ('user', 'Standard user with basic privileges');
+INSERT INTO roles (name, description) VALUES ('customer', 'Standard user with customer privileges');
+
+-- Assign "customer" role to new users by default
+INSERT INTO user_roles (user_id, role_id)
+SELECT users.id, roles.id
+FROM users
+CROSS JOIN roles
+WHERE users.id = 1 AND roles.name = 'customer';
+
+CREATE USER 
