@@ -1,4 +1,5 @@
 let Product = require("../model/products.model");
+const { requireSignin } = require("../middleware/index");
 
 /*This function adds a new product to the database. 
 It extracts the necessary details of the product from the request body, creates a 

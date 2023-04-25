@@ -3,8 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const axios = require(`axios`);
-const requestHandler = require("./routes/products.routes");
-const router = require("express").Router();
+const routes = require("./routes/products.routes");
 const app = express();
 
 const SERVICE_NAME = `productcatelogservice`;
@@ -16,7 +15,7 @@ const PROTOCOL = "http";
 app.use(cors());
 require("dotenv").config();
 app.use(express.json());
-app.use(requestHandler);
+app.use(routes);
 
 /*This code establishes a connection to a MongoDB database using the Mongoose library. 
 The connect() method is called with a MongoDB Atlas URI string and a configuration object 
