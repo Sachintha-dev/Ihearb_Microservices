@@ -93,7 +93,15 @@ router.post("/login", (req, res) => {
         });
         return;
       }
-      const token = jwt.sign({ user: result[0] }, key, { expiresIn: `1h` });
+      console.log(result[0].userrole);
+      const token = jwt.sign(
+        { user: result[0], userRole: result[0].userrole },
+        key,
+        {
+          expiresIn: `1h`,
+        }
+      );
+      console.log(token);
       const response = {
         message: `Log in successful`,
         data: token,

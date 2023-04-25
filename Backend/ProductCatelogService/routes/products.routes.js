@@ -1,5 +1,9 @@
 const router = require("express").Router();
-const { requireSignin } = require("../middleware/index");
+const {
+  requireSignin,
+  adminMiddleware,
+  userMiddleware,
+} = require("../middleware/index");
 
 const {
   addProduct,
@@ -12,7 +16,7 @@ const {
 router.post("/addProduct/", addProduct);
 
 //get all products
-router.get("/getproduct", requireSignin, getProduct);
+router.get("/getproduct", adminMiddleware, getProduct);
 
 //Update product
 router.put("/updateProduct/:id", updateProduct);
