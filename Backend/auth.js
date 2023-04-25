@@ -65,6 +65,7 @@ router.post("/login", (req, res) => {
       .send({ message: `Username and password are required`, data: null });
   }
 
+  console.log(email);
   pool.query(
     `SELECT * FROM users WHERE email = ?`,
     [email],
@@ -76,6 +77,7 @@ router.post("/login", (req, res) => {
           .send({ message: "Faild log in email is doesnt exsit", data: null });
         return;
       }
+      console.log(result);
       if (result.length != 1) {
         res.status(500).send({ message: "Faild log in", data: null });
         return;
@@ -92,10 +94,11 @@ router.post("/login", (req, res) => {
         return;
       }
       const token = jwt.sign({ user: result[0] }, key, { expiresIn: `1h` });
-      res.send({
-        message: `Log in successfull`,
+      const response = {
+        message: `Log in successful`,
         data: token,
-      });
+      };
+      res.send(JSON.stringify(response));
     }
   );
 });

@@ -4,7 +4,6 @@ const axios = require(`axios`);
 const fs = require("fs");
 const loadbalancer = require("../util/loadbalancer");
 const app = express();
-
 const registry = require(`./registry.json`);
 const { error, log } = require("console");
 
@@ -97,49 +96,53 @@ it sends a response back to the client indicating that the
 API does not exist.
 */
 
-const handleGatewayRequest = (req, res) => {
-  router.all([`/:apiName/:path`, `/:apiName/:path/:id`], (req, res) => {
-    const service = registry.services[req.params.apiName];
-    if (service) {
-      if (!service.loadBalanaceStrtegy) {
-        service.loadBalanaceStrtegy = "ROUND_ROBIN";
-        fs.writeFile(
-          `./router/registry.json`,
-          JSON.stringify(registry),
-          (error) => {
-            if (error) {
-              res.send("Couldn't write a load balance stretagy" + error);
-            }
+router.all([`/:apiName/:path`, `/:apiName/:path/:id`], (req, res) => {
+  const service = registry.services[req.params.apiName];
+  if (service) {
+    if (!service.loadBalanaceStrtegy) {
+      service.loadBalanaceStrtegy = "ROUND_ROBIN";
+      fs.writeFile(
+        `./router/registry.json`,
+        JSON.stringify(registry),
+        (error) => {
+          if (error) {
+            res.send("Couldn't write a load balance stretagy" + error);
           }
-        );
-      }
-      const newIndex = loadbalancer[service.loadBalanaceStrtegy](service);
-      const url = service.instances[newIndex].url;
-      console.log(`index ${newIndex}`);
-      console.log(url);
-      const newurl =
-        req.params.id !== undefined
-          ? url + req.params.path + "?id=" + req.params.id
-          : url + req.params.path;
-      console.log(newurl);
-      axios({
-        method: req.method,
-        url: newurl,
-        headers: req.headers,
-        data: req.body,
-      })
-        .then((response) => {
-          res.send(response.data);
-          console.log("Hello");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      res.send(`API does not exist`);
+        }
+      );
     }
-  });
-};
+    const newIndex = loadbalancer[service.loadBalanaceStrtegy](service);
+    const url = service.instances[newIndex].url;
+    console.log(`index ${newIndex}`);
+    console.log(url);
+    console.log(req.headers.authorization);
+    const newurl =
+      req.params.id !== undefined
+        ? url + req.params.path + "?id=" + req.params.id
+        : url + req.params.path;
+    console.log(newurl);
+    const headers = req.headers;
+    if (headers.authorization) {
+      const token = headers.authorization.split(" ")[1];
+      headers.Authorization = `Bearer ${token}`;
+    }
+    axios({
+      method: req.method,
+      url: newurl,
+      headers: headers,
+      data: req.body,
+    })
+      .then((response) => {
+        res.send(response.data);
+        console.log("Hello");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
+    res.send(`API does not exist`);
+  }
+});
 
 /*
 This registerApi function is responsible for registering a new API with the API Gateway. 
@@ -212,27 +215,6 @@ The registerApi function adds the new service instance details to the registry a
 If there is an error while saving the registry to the file, the function returns an error response to the client. 
 Otherwise, the function returns a success response to the client.
 */
-
-// router.post(`/register`, (req, res) => {
-//   const registerInfo = req.body;
-//   if (servicesAlreadyExist(registerInfo)) {
-//     registerApi(req, res);
-//   } else {
-//     registry.services[registerInfo.serviceName] = { index: 0, instances: [] };
-//     fs.writeFile(
-//       `./router/registry.json`,
-//       JSON.stringify(registry),
-//       (error) => {
-//         if (error) {
-//           res.send("Couldn't register" + registerInfo.apiName + "\n" + error);
-//         } else {
-//           res.send("Successfull registerd " + registerInfo.apiName + "\n");
-//         }
-//       }
-//     );
-//     registerApi(req, res);
-//   }
-// });
 
 router.post(`/register`, (req, res) => {
   const registerInfo = req.body;
