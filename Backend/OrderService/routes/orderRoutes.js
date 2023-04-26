@@ -7,11 +7,11 @@ const {
 } = require("../controller/orderController.js");
 
 //Add product to cart
-router.post("/addOrder", addProductToCart);
+router.post("/orderapi", addProductToCart);
 
 //Get order details for a user/session id
-router.get("/getOrderDetails/:userId", getOrderDetails);
+router.get("/orderapi", getOrderDetails);
 
 //Delete order by orderid
-router.delete("/deleteOrder/:userId", deleteOrder);
+router.delete("/orderapi", deleteOrder);
 module.exports = router;

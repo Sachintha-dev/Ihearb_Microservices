@@ -61,7 +61,8 @@ const ObjectId = mongoose.Types.ObjectId;
 
 const getOrderDetails = async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.query.id;
+    console.log(userId);
 
     // if (!ObjectId.isValid(userId)) {
     //   return res.status(400).json({ message: "Invalid user id" });

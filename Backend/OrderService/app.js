@@ -3,25 +3,20 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const axios = require(`axios`);
+const routes = require("./routes/orderRoutes");
 
 const SERVICE_NAME = `orderservice`;
 const HOST = `localhost`;
 const PORT = 5006;
-const APINAME = "getorders";
+const APINAME = "orderapi";
 const PROTOCOL = "http";
 
 const app = express();
 
-const OrderRoutes = require("./routes/orderRoutes.js");
-
 app.use(bodyParser.json());
 app.use(cors());
-
-// middleware
 app.use(express.json());
-
-//routes
-app.use("/order", OrderRoutes);
+app.use(routes);
 
 mongoose
   .connect(
@@ -50,8 +45,4 @@ app.listen(PORT, (req, res) => {
   }).then((response) => {
     console.log(response.data);
   });
-});
-
-app.get(`/orderService`, (req, res, next) => {
-  res.send("hello from orderservice");
 });

@@ -116,6 +116,7 @@ router.all([`/:apiName/:path`, `/:apiName/:path/:id`], (req, res) => {
     console.log(`index ${newIndex}`);
     console.log(url);
     console.log(req.headers.authorization);
+    console.log(req.params.path);
     const newurl =
       req.params.id !== undefined
         ? url + req.params.path + "?id=" + req.params.id

@@ -67,7 +67,6 @@ find method to retrieve all products when id is not defined. If an error occurs 
 If the product or list of products is found, it returns a success status along with the product data.*/
 const getProduct = async (req, res) => {
   const productId = req.query.id;
-
   console.log(productId);
   if (productId !== undefined) {
     Product.findById(productId)

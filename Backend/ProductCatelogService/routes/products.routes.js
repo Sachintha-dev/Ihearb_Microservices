@@ -13,18 +13,18 @@ const {
 } = require("../controller/products.controller.js");
 
 //add new product
-router.post("/addProduct/", addProduct);
+router.post("/productapi", addProduct);
 
 //get all products
-router.get("/getproduct", getProduct);
+router.get("/productapi", getProduct);
 
 //Update product
-router.put("/updateProduct/:id", updateProduct);
+router.put("/productapi/:id", updateProduct);
 
 //Delete product
-router.delete("/deleteProduct/:id", deleteProduct);
+router.delete("/productapi/:id", deleteProduct);
 
 // Search for product
-router.get("/getProduct/:id", getProduct);
+router.get("/productapi/:id", getProduct);
 
 module.exports = router;

@@ -5,23 +5,15 @@
       "instances": [
         {
           "serviceName": "orderservice",
-          "apiName": "getorders",
-          "protocol": "http",
-          "host": "localhost",
-          "port": 5005,
-          "enabled": true,
-          "url": "http://localhost:5005/"
-        },
-        {
-          "serviceName": "orderservice",
-          "apiName": "getorders",
+          "apiName": "orderapi",
           "protocol": "http",
           "host": "localhost",
           "port": 5006,
           "enabled": true,
           "url": "http://localhost:5006/"
         }
-      ]
+      ],
+      "loadBalanaceStrtegy": "ROUND_ROBIN"
     },
     "paymentservice": {
       "index": 0,
@@ -52,6 +44,5 @@
       ],
       "loadBalanaceStrtegy": "ROUND_ROBIN"
     }
-   
   }
 }
