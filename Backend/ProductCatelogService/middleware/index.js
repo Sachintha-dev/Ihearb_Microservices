@@ -73,8 +73,6 @@ const adminMiddleware = (req, res, next) => {
     return res.status(401).send({ message: "Invalid token" });
   }
   next();
-
-  next();
 };
 
 module.exports = {

@@ -16,7 +16,7 @@ const {
 router.post("/addProduct/", addProduct);
 
 //get all products
-router.get("/getproduct", adminMiddleware, getProduct);
+router.get("/getproduct", getProduct);
 
 //Update product
 router.put("/updateProduct/:id", updateProduct);
