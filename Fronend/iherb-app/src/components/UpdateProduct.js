@@ -18,7 +18,7 @@ function UpdateProduct() {
     async function fetchData() {
       const id = params.id.toString();
       const response = await fetch(
-        `http://localhost:5002/products/getProduct?id=${params.id.toString()}`
+        `http://localhost:3000/productcatelogservice/productapi/${params.id.toString()}`
       );
 
       if (!response.ok) {

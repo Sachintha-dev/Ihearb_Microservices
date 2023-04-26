@@ -10,7 +10,7 @@ const OrderList = () => {
   useEffect(() => {
     async function fetchOrderDetails() {
       const response = await fetch(
-        `http://localhost:5006/order/getOrderDetails/${params.userId}`
+        `http://localhost:3000/orderservice/orderapi/${params.userId}`
       );
 
       if (!response.ok) {

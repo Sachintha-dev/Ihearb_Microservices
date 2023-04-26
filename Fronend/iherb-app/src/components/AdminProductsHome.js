@@ -8,7 +8,7 @@ function ProductTable() {
   useEffect(() => {
     async function getRecords() {
       const response = await fetch(
-        `http://localhost:5002/products/getProducts`
+        `http://localhost:3000/productcatelogservice/productapi`
       );
       if (!response.ok) {
         const message = `An error occured: ${response.statusText}`;
@@ -26,7 +26,7 @@ function ProductTable() {
   const deleteProduct = async (productId) => {
     try {
       await axios.delete(
-        `http://localhost:5000/products/deleteProduct/${productId}`
+        `http://localhost:3000/productcatelogservice/productapi/${productId}`
       );
       setRecords(productRecords.filter((product) => product._id !== productId));
     } catch (err) {

@@ -49,7 +49,7 @@ export default function ProductDetails() {
   useEffect(() => {
     async function fetchProductDetails() {
       const response = await fetch(
-        `http://localhost:5002/products/getProduct?id=${params.id.toString()}`
+        `http://localhost:3000/productcatelogservice/productapi/${params.id.toString()}`
       );
 
       if (!response.ok) {

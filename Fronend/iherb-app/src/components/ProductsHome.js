@@ -12,7 +12,7 @@ const addToCart = (productId, productName, productPrice, image) => {
   };
 
   const response = axios
-    .post(`http://localhost:5006/order/addOrder/`, newOrder)
+    .post(`http://localhost:3000/orderservice/orderapi/`, newOrder)
     .then(() => {
       console.log(response.data);
       window.alert("Product added to cart!");
@@ -45,7 +45,9 @@ function ProductsHome() {
   const [search, setsearch] = useState("");
   useEffect(() => {
     async function getRecords() {
-      const response = await fetch(`http://localhost:5002/products/getProduct`);
+      const response = await fetch(
+        `http://localhost:3000/productcatelogservice/productapi/`
+      );
       if (!response.ok) {
         const message = `An error occured: ${response.statusText}`;
         window.alert(message);
