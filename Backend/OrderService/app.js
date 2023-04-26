@@ -29,17 +29,6 @@ app.use(function (req, res, next) {
 
 app.use(routes);
 
-mongoose
-  .connect(
-    "mongodb+srv://senulananayakkara88:sack1234@productdb.cyqr0hj.mongodb.net/?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
-  .then(() => console.log("MongoDB connection sucess"))
-  .catch((error) => console.log(error));
-
 app.listen(PORT, (req, res) => {
   axios({
     method: "POST",
@@ -57,3 +46,16 @@ app.listen(PORT, (req, res) => {
     console.log(response.data);
   });
 });
+
+mongoose
+  .connect(
+    "mongodb+srv://senulananayakkara88:sack1234@productdb.cyqr0hj.mongodb.net/?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => console.log("MongoDB connection sucess"))
+  .catch((error) => console.log(error));
+
+
