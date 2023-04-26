@@ -190,6 +190,7 @@ function registerApi(req, res) {
     registry.services[registerInfo.serviceName].instances.push({
       ...registerInfo,
     });
+    console.log(registry);
     fs.writeFile(
       `./router/registry.json`,
       JSON.stringify(registry),
