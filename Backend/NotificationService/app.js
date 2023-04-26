@@ -2,19 +2,31 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const emailRoutes = require("./routes/emailRoutes");
+const axios = require(`axios`);
 
 const app = express();
-const port = 5025;
+app.use(bodyParser.json());
 
-const SERVICE_NAME = `orderservice`;
+
+const SERVICE_NAME = `notificationservice`;
 const HOST = `localhost`;
-const PORT = 5050;
+const PORT = 5020;
 const APINAME = "notificationapi";
 const PROTOCOL = "http";
 
-app.use(bodyParser.json());
-
+// middleware
+app.use(cors());
+app.use(express.json());
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+});
 app.listen(PORT, (req, res) => {
+  console.log(PORT);
   axios({
     method: "POST",
     url: "http://localhost:3000/register",
@@ -30,23 +42,4 @@ app.listen(PORT, (req, res) => {
   }).then((response) => {
     console.log(response.data);
   });
-});
-
-// middleware
-app.use(cors());
-app.use(express.json());
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
-
-//Routes
-app.use("/sendEmail", emailRoutes);
-
-app.listen(port, () => {
-  console.log(`App is running on http://localhost:${port}`);
 });
