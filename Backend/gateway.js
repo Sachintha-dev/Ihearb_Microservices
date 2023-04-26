@@ -1,18 +1,18 @@
 const express = require("express");
+const cors = require("cors");
 const helemt = require("helmet");
 const app = express();
 const auth = require(`./auth`);
 const router = require(`./router`);
 const PORT = 3000;
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+app.use(
+  cors({
+    origin: "http://localhost:3001",
+    methods: ["GET", "POST", "PUT", "DELETE"], // Add DELETE method here
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(express.json());
 app.use(`/`, auth);
 app.use(`/`, router);

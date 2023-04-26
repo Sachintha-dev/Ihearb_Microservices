@@ -93,6 +93,7 @@ const getOrderDetails = async (req, res) => {
         products: products,
         userId: order.userId,
         total: order.total,
+        status: order.status,
       };
     });
 

@@ -14,7 +14,7 @@ router.post("/orderapi", addProductToCart);
 router.get("/orderapi", getOrderDetails);
 
 //Delete order by orderid
-router.delete("/orderapi/", deleteOrder);
+router.delete("/orderapi", deleteOrder);
 
 router.put("/orderapi/", updateOrderStatus);
 module.exports = router;
