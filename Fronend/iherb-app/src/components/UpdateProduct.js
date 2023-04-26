@@ -60,7 +60,7 @@ function UpdateProduct() {
     };
     axios
       .put(
-        `http://localhost:5002/products/updateProduct?id=${params.id}`,
+        `http://localhost:3000/productcatelogservice/productapi/${params.id}`,
         newProduct
       )
       .then((res) => {

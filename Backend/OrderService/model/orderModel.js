@@ -40,6 +40,12 @@ const orderSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
+
+  status: {
+    type: String,
+    required: true,
+    default: "pending",
+  },
 });
 
 orderSchema.methods.calculateTotal = function () {

@@ -30,7 +30,7 @@ function ProductTable() {
       );
       setRecords(productRecords.filter((product) => product._id !== productId));
     } catch (err) {
-      alert(err);
+      console.log(err);
     }
   };
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const OrderList = () => {
   const [orderDetails, setOrderDetails] = useState([]);
@@ -28,14 +29,13 @@ const OrderList = () => {
   }, [orderDetails.length]);
 
   async function deleteCart(userID) {
-    const response = await fetch(
-      `http://localhost:5006/order/deleteOrder/${userID}`,
-      {
-        method: "DELETE",
-      }
-    );
-    if (response.ok) {
+    try {
+      await axios.delete(
+        `http://localhost:3000/orderservice/orderapi/${userID}`
+      );
       navigate("/");
+    } catch (error) {
+      console.error(error);
     }
   }
 
