@@ -46,6 +46,7 @@ If an error occurs, it logs the error and sends a JSON response with a status co
 const deleteProduct = async (req, res) => {
   let _id = req.query.id;
   console.log(_id);
+  console.log("delete function");
   await Product.findByIdAndDelete(_id)
 
     .then(() => {
@@ -101,8 +102,9 @@ it returns a JSON response with a status code of 200 and the updated product dat
 If there is no such product with that ID, it returns a JSON response with a status code of 400 and an error message.
 */
 const updateProduct = async (req, res) => {
-  const { id } = req.query;
-
+  const id = req.query.id;
+  console.log(id);
+  console.log("hello from update ");
   const product = await Product.findOneAndUpdate(
     { _id: id },
     {

@@ -15,16 +15,13 @@ const {
 //add new product
 router.post("/productapi", addProduct);
 
-//get all products
-router.get("/productapi", getProduct);
-
 //Update product
-router.put("/productapi/:id", updateProduct);
+router.put("/productapi", updateProduct);
 
 //Delete product
-router.delete("/productapi/:id", deleteProduct);
+router.delete("/productapi", deleteProduct);
 
 // Search for product
-router.get("/productapi/:id", getProduct);
+router.get("/productapi", getProduct);
 
 module.exports = router;
