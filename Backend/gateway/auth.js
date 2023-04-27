@@ -121,7 +121,6 @@ router.post("/logout", (req, res) => {
         .status(401)
         .send({ message: "Unauthorized", data: null });
     }
-
     // the token is valid, so we can delete it from the user's local storage
     const response = {
       message: `Log out successful`,
@@ -130,14 +129,5 @@ router.post("/logout", (req, res) => {
     res.send(JSON.stringify(response));
   });
 });
-
-
-
-
-
-
-
-
-
 
 module.exports = router;

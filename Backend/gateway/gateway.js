@@ -7,8 +7,9 @@ const path = require("path");
 const router = require(`./router`);
 const morgan = require(`morgan`);
 const fs = require(`fs`);
-const PORT = 3000;
 
+
+const PORT = 3000;
 
 const accessLogStream = fs.createWriteStream(
   path.join(__dirname, "logs", "access.log"),
@@ -16,7 +17,6 @@ const accessLogStream = fs.createWriteStream(
 );
 
 app.use(morgan("combined", { stream: accessLogStream }));
-
 
 
 app.use(
