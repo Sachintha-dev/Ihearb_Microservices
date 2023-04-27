@@ -1,0 +1,50 @@
+version: "3.8"
+services:
+  gateway:
+    build: ./gateway
+    ports:
+      - '3000:80'
+    volumes:
+      - /absolute/path/to/app/router/registry:/app/router/registry
+      - /absolute/path/to/app/router/logs:/app/router/logs
+      - ./gateway:/app
+      - /absolute/path/to/app/node_modules:/app/node_modules
+  productcatelog:
+    build: ./productCatelogService
+    ports:
+      - '3001:80'
+    volumes:
+      - ./productCatelogService:/app
+      - /absolute/path/to/app/node_modules:/app/node_modules
+    depends_on:
+      - gateway
+  order:
+    build: ./orderService
+    ports:
+      - '3002:80'
+    volumes:
+      - ./orderService:/app
+      - /absolute/path/to/app/node_modules:/app/node_modules
+    depends_on:
+      - gateway
+  payment:
+    build: ./paymentService
+    ports:
+      - '3003:80'
+    volumes:
+      - ./paymentService:/app
+      - /absolute/path/to/app/node_modules:/app/node_modules
+    depends_on:
+      - gateway
+  notification:
+    build: ./notificationService
+    ports:
+      - '3004:80'
+    volumes:
+      - ./notificationService:/app
+      - /absolute/path/to/app/node_modules:/app/node_modules
+    depends_on:
+      - gateway      
+volumes: 
+  registry:
+  logs:
