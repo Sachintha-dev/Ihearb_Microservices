@@ -10,19 +10,33 @@ export default function Checkout() {
       { id: 3, quantity: 2 },
     ];
 
+    const newEmail = {
+      to: "senulananayakkara88@gmail.com",
+      subject: "Payment checkout successfull",
+      description: "You have selected " + items.length + " items",
+    };
+
     try {
-      const response = await axios.post("http://localhost:4000/create-checkout-session", {
-        items: items,
-      });
+      await axios.post(
+        "http://localhost:3000/notificationservice/notificationapi/",
+        newEmail
+      );
+      const response = await axios.post(
+        "http://localhost:4000/create-checkout-session",
+        {
+          items: items,
+        }
+      );
       window.location = response.data.url;
     } catch (err) {
       console.log(err.message);
+      alert("Failed to complete checkout");
     }
   };
 
   return (
     <div>
-      <button type='submit' className='btn btn-success' onClick={onClick}>
+      <button type="submit" className="btn btn-success" onClick={onClick}>
         Checkout
       </button>
     </div>
