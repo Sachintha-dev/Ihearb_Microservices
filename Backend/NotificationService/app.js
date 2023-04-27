@@ -1,12 +1,15 @@
+//Import dependancies
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const emailRoutes = require("./routes/emailRoutes");
 const axios = require(`axios`);
+//Add routes
+const emailRoutes = require("./routes/emailRoutes");
 
 const app = express();
 app.use(bodyParser.json());
 
+// Define api service
 const SERVICE_NAME = `notificationservice`;
 const HOST = `localhost`;
 const PORT = 5020;
@@ -25,6 +28,8 @@ app.use(function (req, res, next) {
   );
   next();
 });
+
+//Register microservice with API
 app.listen(PORT, (req, res) => {
   console.log(PORT);
   axios({

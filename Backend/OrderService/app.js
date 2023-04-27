@@ -1,10 +1,13 @@
+//Import dependancies
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-//hello world
+// Define api service
 const axios = require(`axios`);
+
+//Add routes
 const routes = require("./routes/orderRoutes");
 
 const SERVICE_NAME = `orderservice`;
@@ -29,6 +32,7 @@ app.use(function (req, res, next) {
 
 app.use(routes);
 
+//Register microservice with API
 app.listen(PORT, (req, res) => {
   axios({
     method: "POST",
@@ -47,6 +51,7 @@ app.listen(PORT, (req, res) => {
   });
 });
 
+//MongoDB data connection
 mongoose
   .connect(
     "mongodb+srv://senulananayakkara88:sack1234@productdb.cyqr0hj.mongodb.net/?retryWrites=true&w=majority",

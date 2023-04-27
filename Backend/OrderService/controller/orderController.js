@@ -106,22 +106,17 @@ const getOrderDetails = async (req, res) => {
 
 // Update order status to success
 const updateOrderStatus = async (req, res) => {
-  try {
-    let userId = req.query.id;
-    const order = await Order.findOne({ userId: userId }); // find the order by user id
+  let userId = req.query.id;
 
-    if (!order) {
-      return res.status(404).json({ message: "Order not found" });
-    }
+  const order = await Order.findOneAndUpdate(
+    { userId: userId },
+    { $set: { status: req.body.status } }
+  );
 
-    order.status = "success"; // set the status to success
-
-    await order.save(); // save the updated order to the database
-
-    res.status(200).json({ message: "Order status updated successfully" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Internal server error" });
+  if (!order) {
+    return res.status(404).json({ message: "Order not found" });
+  } else {
+    return res.status(200).json(order);
   }
 };
 
