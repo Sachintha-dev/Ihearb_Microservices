@@ -1,19 +1,24 @@
+//Import nodemailer module to use SMTP for sending e-mail.
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
+//Fuction for creating email
 const sendMail = async (req, res, next) => {
   const { to, subject, description } = req.body;
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
+    secure: false,
     auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_PASS,
+      user: "nanayakkarasb88@gmail.com", //Sender email
+      pass: "epsomdcfymkmowzs", //Password
     },
   });
 
+  //Adding reciever mail options: (to, subject, text, html)
+
   var mailOptions = {
-    from: process.env.GMAIL_USER,
+    from: "nanayakkarasb88@gmail.com",
     to: to,
     subject: subject,
     html: `
@@ -71,6 +76,7 @@ const sendMail = async (req, res, next) => {
     `,
   };
 
+  // Send email using transporter object and email options
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);

@@ -12,7 +12,7 @@ const addToCart = (productId, productName, quantity, productPrice, image) => {
   };
 
   const response = axios
-    .post(`http://localhost:5006/order/addOrder/`, newOrder)
+    .post(`http://localhost:3000/orderservice/orderapi/`, newOrder)
     .then(() => {
       console.log(response.data);
       window.alert("Product added to cart!");
@@ -31,7 +31,10 @@ const addToCart = (productId, productName, quantity, productPrice, image) => {
   };
 
   axios
-    .post(`http://localhost:5025/sendEmail/send`, newEmail)
+    .post(
+      `http://localhost:3000/notificationservice/notificationapi/`,
+      newEmail
+    )
     .then((response) => {
       console.log(response.data);
     })

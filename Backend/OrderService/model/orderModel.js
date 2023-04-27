@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+//Model creation for Order
+
 const orderSchema = new mongoose.Schema({
   products: [
     {
