@@ -7,7 +7,6 @@ const axios = require(`axios`);
 const app = express();
 app.use(bodyParser.json());
 
-
 const SERVICE_NAME = `notificationservice`;
 const HOST = `localhost`;
 const PORT = 5020;
@@ -17,13 +16,14 @@ const PROTOCOL = "http";
 // middleware
 app.use(cors());
 app.use(express.json());
+app.use(emailRoutes);
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
+  );
+  next();
 });
 app.listen(PORT, (req, res) => {
   console.log(PORT);

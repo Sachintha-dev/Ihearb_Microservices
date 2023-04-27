@@ -6,14 +6,15 @@ const sendMail = async (req, res, next) => {
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
+    secure: false,
     auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_PASS,
+      user: "nanayakkarasb88@gmail.com",
+      pass: "epsomdcfymkmowzs",
     },
   });
 
   var mailOptions = {
-    from: process.env.GMAIL_USER,
+    from: "nanayakkarasb88@gmail.com",
     to: to,
     subject: subject,
     html: `

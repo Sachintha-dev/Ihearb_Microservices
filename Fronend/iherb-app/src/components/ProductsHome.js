@@ -30,7 +30,10 @@ const addToCart = (productId, productName, productPrice, image) => {
   };
 
   axios
-    .post(`http://localhost:5025/sendEmail/send`, newEmail)
+    .post(
+      `http://localhost:3000/notificationservice/notificationapi/`,
+      newEmail
+    )
     .then((response) => {
       console.log(response.data);
     })

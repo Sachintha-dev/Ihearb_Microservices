@@ -57,5 +57,3 @@ mongoose
   )
   .then(() => console.log("MongoDB connection sucess"))
   .catch((error) => console.log(error));
-
-

@@ -5,7 +5,6 @@ const axios = require(`axios`);
 const app = express();
 
 // Route for sending email
-router.post("/send", sendEmail);
-
+router.post("/notificationapi", sendEmail);
 
 module.exports = router;
