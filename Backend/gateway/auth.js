@@ -134,6 +134,28 @@ const adminMiddleware = (req, res, next) => {
   }
   next();
 };
+const cricketerMiddleware = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).send({ message: "Authorization header missing" });
+  }
+
+  const token = authHeader.split(" ")[1];
+  if (!token) {
+    return res.status(401).send({ message: "Token missing" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, key);
+    req.user = decoded.user;
+    if (toLowerCase(req.user.userrole) !== "cricketer") {
+      return res.status(403).send({ message: "Cricketer Access denied" });
+    }
+  } catch {
+    return res.status(401).send({ message: "Invalid token" });
+  }
+  next();
+};
 
 router.post("/logout", (req, res) => {
   const token = req.headers.authorization.split(" ")[1]; // get the token from the request header
