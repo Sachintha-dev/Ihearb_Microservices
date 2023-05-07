@@ -111,15 +111,37 @@ router.post("/login", (req, res) => {
   );
 });
 
+const adminMiddleware = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).send({ message: "Authorization header missing" });
+  }
+
+  const token = authHeader.split(" ")[1];
+  if (!token) {
+    return res.status(401).send({ message: "Token missing" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, key);
+    req.user = decoded.user;
+    console.log("user access done");
+    if (req.user.userrole !== "Admin" || req.user.userrole !== "admin") {
+      return res.status(403).send({ message: "Admin Access denied" });
+    }
+  } catch {
+    return res.status(401).send({ message: "Invalid token" });
+  }
+  next();
+};
+
 router.post("/logout", (req, res) => {
   const token = req.headers.authorization.split(" ")[1]; // get the token from the request header
 
   // check if the token is valid
   jwt.verify(token, key, (err, decoded) => {
     if (err) {
-      return res
-        .status(401)
-        .send({ message: "Unauthorized", data: null });
+      return res.status(401).send({ message: "Unauthorized", data: null });
     }
     // the token is valid, so we can delete it from the user's local storage
     const response = {
